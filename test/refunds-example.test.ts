@@ -21,7 +21,7 @@ import path from "node:path";
 import { after, before, test } from "node:test";
 import { fileURLToPath } from "node:url";
 import { leanCommand } from "../src/backends/lean.ts";
-import { checkRepo, type Report } from "../src/check.ts";
+import { checkRepo, type Report, renderText } from "../src/check.ts";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const EXAMPLE = path.join(ROOT, "examples/refunds");
@@ -106,7 +106,7 @@ test("an honest change passes the gate; unproved Lean is reported as incomplete"
 	);
 	assert.equal(refund.proof.verdict, "skipped");
 	assert.match(refund.proof.detail, /--allow-repo-execution/);
-	assert.equal(report.verdict, "incomplete");
+	assert.equal(report.verdict, "incomplete", renderText(report));
 });
 
 test("a forged approval is caught by the gate", () => {
