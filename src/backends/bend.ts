@@ -82,13 +82,28 @@ function runBend({ cwd, baseLaws, generated }: KernelJob): KernelRun {
 		)
 			return {
 				exitCode: 1,
-				output: `${output}\nThe compiled kernel the app imports does not match a fresh compile of the proven source.`,
+				output: `${output}\nThe compiled kernel the app imports does not match a fresh compile of the proven source.\n${firstDifference(app, code)}`,
 				stage: "compiled",
 			};
 		return { exitCode: 0, output };
 	} finally {
 		rmSync(tmp, { recursive: true, force: true });
 	}
+}
+
+// Names the first line where the app's kernel and a fresh compile part ways,
+// skipping the app file's header comments, so a stale file is easy to place.
+function firstDifference(app: string, code: string): string {
+	const appLines = app.split("\n");
+	const start = appLines.findIndex(
+		(line) => line !== "" && !line.startsWith("//"),
+	);
+	const ours = appLines.slice(Math.max(start, 0));
+	const fresh = code.split("\n");
+	const at = fresh.findIndex((line, i) => line !== ours[i]);
+	if (at === -1)
+		return `The app's file has ${ours.length - fresh.length} extra line(s) at the end.`;
+	return `First difference at line ${at + 1} of the fresh compile:\n  fresh: ${JSON.stringify(fresh[at])}\n  app:   ${JSON.stringify(ours[at] ?? "(end of file)")}`;
 }
 
 export const bend: ProofBackend = {
