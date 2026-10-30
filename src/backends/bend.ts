@@ -16,7 +16,9 @@ import {
 	stageSources,
 } from "./backend.ts";
 
-// PROVE_BEND overrides the Bend command, e.g. "bun /path/to/bend2/main.ts".
+// PROVE_BEND overrides the Bend command. Use a release build: Bend copies its
+// runtime helpers' source text into the emitted module, so running Bend from
+// source under bun emits different bytes and committed kernels look stale.
 export const bendCommand = () => commandFrom("BEND", "bend");
 
 // Proves the PR's kernel against the base branch's LAWS.bend, so a PR cannot
