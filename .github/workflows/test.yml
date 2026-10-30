@@ -42,5 +42,5 @@ jobs:
       - run: pnpm test
       - name: Generated example files match a fresh build
         run: |
-          node src/cli.ts generate --repo examples/refunds --check
-          node src/cli.ts generate --repo examples/checkout --check
+          pnpm exec node src/cli.ts generate --repo examples/refunds --check
+          pnpm exec node src/cli.ts generate --repo examples/checkout --check
