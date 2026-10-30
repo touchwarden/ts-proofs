@@ -1,0 +1,19 @@
+@touchwarden/prove
+Copyright 2026 Graeme Harris
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This project builds on the following, and does not redistribute their toolchains:
+- Bend (https://bend-lang.com), used as a proof backend.
+- Lean 4 (https://lean-lang.org), Apache-2.0, used as a proof backend.
+- Lasm (https://github.com/Millillion/lasm), MIT, which compiles Lean to WebAssembly.
+- The Ghosts of Departed Proofs idea (Matt Noonan, 2018) and its TypeScript
+  take, gdp-ts (https://github.com/rauchg/gdp-ts), which the gate follows.
+None of these projects endorses this one.
+
+examples/refunds/kernels/bend/refunds/refunds.mjs is JavaScript emitted by the
+Bend compiler from the example's own Bend source, committed so the example
+runs without Bend installed.
+
+src/runtime/index.ts copies the Standard Schema interface (https://standardschema.dev),
+as that specification allows.

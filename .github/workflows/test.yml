@@ -1,0 +1,46 @@
+# Tests this repository: lint, types, and every test with Lean, Lasm and Bend
+# installed, so no backend's tests are skipped.
+name: test
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      BEND_NO_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.10.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install Lean (the version in lean-toolchain)
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain "$(cat lean-toolchain)"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Install Bend 2.0.39, checked against the sha256 its installer publishes
+        run: |
+          curl -sSfL -o "$RUNNER_TEMP/bend.tar.gz" \
+            https://github.com/bendlang/bend/releases/download/v2.0.39/bend-2.0.39-linux-x64.tar.gz
+          echo "6cf462fd8f70b094a4950ebb709a9c4ffd8f1d1189d9cedf1fd63cd5d041c7ab  $RUNNER_TEMP/bend.tar.gz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/bend.tar.gz" -C "$RUNNER_TEMP"
+          mkdir -p "$HOME/.bend/bin"
+          mv "$RUNNER_TEMP/bend/bend2" "$RUNNER_TEMP/bend/guide" "$HOME/.bend/"
+          mv "$RUNNER_TEMP/bend/bin/bend" "$HOME/.bend/bin/bend"
+          echo "$HOME/.bend/bin" >> "$GITHUB_PATH"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - name: Generated example files match a fresh build
+        run: |
+          node src/cli.ts generate --repo examples/refunds --check
+          node src/cli.ts generate --repo examples/checkout --check

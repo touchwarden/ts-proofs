@@ -1,0 +1,13 @@
+{
+	"name": "checkout-example",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"generate": "prove generate",
+		"build:web": "cd kernels/pricing && lasm build Main.lean --target browser --output ../../web",
+		"demo": "node demo.ts"
+	},
+	"dependencies": {
+		"@touchwarden/prove": "workspace:*"
+	}
+}

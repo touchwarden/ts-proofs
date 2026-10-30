@@ -1,0 +1,42 @@
+{
+	"rules": [
+		{
+			"id": "refund-within-captured",
+			"statement": "An approved refund never takes the refunded total past what was captured.",
+			"backend": "lasm",
+			"kernel": "kernels/lasm/refunds",
+			"law": "never_exceeds_captured",
+			"entry": "Kernel.decide",
+			"proofType": "RefundsApproved",
+			"gate": {
+				"project": ".",
+				"trusted": ["kernels/lasm/refunds/refunds.gen.ts"],
+				"sink": { "call": "ledger.insertRefund", "only_in": "recordRefund" }
+			}
+		},
+		{
+			"id": "refund-zero-refused",
+			"statement": "A refund of 0 is always refused.",
+			"backend": "lasm",
+			"kernel": "kernels/lasm/refunds",
+			"law": "zero_is_refused"
+		},
+		{
+			"id": "refund-within-captured-bend",
+			"statement": "The same rule, proved in Bend.",
+			"backend": "bend",
+			"kernel": "kernels/bend/refunds",
+			"law": "never_exceeds_captured",
+			"generated": "kernels/bend/refunds/refunds.mjs",
+			"entry": "decide"
+		},
+		{
+			"id": "refund-within-captured-model",
+			"statement": "The same rule as a Lean model, for apps that keep their own TypeScript.",
+			"backend": "lean",
+			"kernel": "kernels/lean/refunds",
+			"law": "never_exceeds_captured",
+			"entry": "Kernel.decide"
+		}
+	]
+}

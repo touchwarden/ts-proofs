@@ -1,0 +1,44 @@
+<!doctype html>
+<!-- The page Lasm's browser build wraps (lasm build Main.lean --target browser).
+     It prices the cart with the same proven kernel the server charges with. -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Checkout</title>
+		<style>
+			body { font: 16px/1.5 system-ui, sans-serif; max-width: 28rem; margin: 2rem auto; padding: 0 1rem; }
+			label { display: flex; justify-content: space-between; margin: 0.5rem 0; }
+			output { display: block; margin-top: 1rem; font-weight: 600; }
+		</style>
+	</head>
+	<body>
+		<h1>Checkout</h1>
+		<label>Item price (cents) <input id="cents" type="number" min="0" value="2500" /></label>
+		<label>Quantity <input id="quantity" type="number" min="0" value="2" /></label>
+		<label>Discount code (cents) <input id="discount" type="number" min="0" value="500" /></label>
+		<output id="price">Loading the pricing kernel…</output>
+		<script type="module">
+			// Main.lean publishes the kernel's quote function once the wasm starts.
+			const out = document.getElementById("price");
+			while (typeof globalThis.__lasmDefaultExport !== "function")
+				await new Promise((resolve) => setTimeout(resolve, 20));
+			const quote = globalThis.__lasmDefaultExport;
+			const read = (id) => Math.max(0, Math.floor(Number(document.getElementById(id).value) || 0));
+			async function update() {
+				const answer = await quote({
+					lines: [{ cents: read("cents"), quantity: read("quantity") }],
+					discount: read("discount"),
+					maxDiscount: 1000,
+					shipping: 499,
+				});
+				const money = (cents) => `$${(cents / 100).toFixed(2)}`;
+				out.textContent = answer.done
+					? `${money(answer.value.subtotal)} − ${money(answer.value.discount)} + ${money(answer.value.shipping)} shipping = ${money(answer.value.total)}`
+					: `Not available: ${answer.error}`;
+			}
+			for (const input of document.querySelectorAll("input")) input.addEventListener("input", update);
+			update();
+		</script>
+	</body>
+</html>

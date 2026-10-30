@@ -1,0 +1,55 @@
+{
+	"name": "@touchwarden/prove",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Prove business rules in Bend or Lean, turn the proven kernel into TypeScript types, and report any code path that acts without the kernel's approval.",
+	"license": "Apache-2.0",
+	"type": "module",
+	"engines": {
+		"node": ">=24"
+	},
+	"bin": {
+		"prove": "./dist/cli.js"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./runtime": {
+			"types": "./dist/runtime/index.d.ts",
+			"default": "./dist/runtime/index.js"
+		},
+		"./lasm": {
+			"types": "./dist/runtime/lasm.d.ts",
+			"default": "./dist/runtime/lasm.js"
+		},
+		"./model": {
+			"types": "./dist/runtime/model.d.ts",
+			"default": "./dist/runtime/model.js"
+		}
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE",
+		"NOTICE"
+	],
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json",
+		"prepare": "tsc -p tsconfig.build.json",
+		"typecheck": "tsc -p tsconfig.json",
+		"lint": "biome check .",
+		"format": "biome format --write .",
+		"test": "pnpm build && node --test test/*.test.ts"
+	},
+	"dependencies": {
+		"typescript5": "npm:typescript@~5.9.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.14",
+		"@lasm/cli": "0.3.5",
+		"@types/node": "^26.6.3",
+		"typescript": "^7.0.2"
+	}
+}

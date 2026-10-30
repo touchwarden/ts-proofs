@@ -1,0 +1,21 @@
+{
+	"generator": "@touchwarden/prove",
+	"rule": "refunds.decide",
+	"entry": "decide",
+	"bend": "2.0.39",
+	"proofs": "ALL PROOFS CHECK (bend --check-only)",
+	"laws": [
+		"never_exceeds_captured",
+		"zero_is_refused",
+		"example_exactly_what_is_left"
+	],
+	"sources": {
+		"main.bend": "d760591484785255e408d9022cc7f4d270f99b6077f9c942670d2726c7a79403",
+		"LAWS.bend": "565a0bd4243ca151aa9d79eff32748dbbd4a19ab7c39da6a71e90466fa0813c8",
+		"PROOF.bend": "2957a2b1cfdcec7c528f08e8c31f4b91e85177dae1e408233ee11c003a11d00e"
+	},
+	"module": {
+		"file": "refunds.mjs",
+		"sha256": "003a4c15bb2e501160dd9f33bb07120161fb003ab4d918eb96ee2e81f65beabb"
+	}
+}

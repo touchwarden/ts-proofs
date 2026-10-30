@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.olean
+*.ilean
+.lake/
+*.lasm-output.lock

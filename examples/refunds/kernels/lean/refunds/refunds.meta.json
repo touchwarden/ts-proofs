@@ -1,0 +1,18 @@
+{
+	"generator": "@touchwarden/prove",
+	"backend": "lean",
+	"lean": "4.35.0",
+	"laws": [
+		"never_exceeds_captured",
+		"approves_what_was_asked",
+		"zero_is_refused"
+	],
+	"rule": "refunds.decide",
+	"entry": "Kernel.decide",
+	"proofType": "RefundsApproved",
+	"sources": {
+		"Kernel.lean": "4c0b66629407f27150b1f387d6bc65c60d932dfdd59fa5a8189eae12141e5d08",
+		"Laws.lean": "60ed5631b452b153deed0693bea97323b684e2954282033436eabc2123c26006",
+		"Proof.lean": "af3f5eb47242be4aef4cc474ad412d5dc457e46215686952721ec179109aa7c3"
+	}
+}

@@ -1,0 +1,32 @@
+{
+	"rules": [
+		{
+			"id": "discount-within-cap",
+			"statement": "The discount never goes past the cap the business set.",
+			"backend": "lasm",
+			"kernel": "kernels/pricing",
+			"law": "discount_within_cap",
+			"entry": "Kernel.quote",
+			"proofType": "PricingApproved",
+			"gate": {
+				"project": ".",
+				"trusted": ["kernels/pricing/pricing.gen.ts"],
+				"sink": { "call": "provider.capture", "only_in": "charge" }
+			}
+		},
+		{
+			"id": "discount-within-subtotal",
+			"statement": "The discount never goes past the goods, so the total never drops below shipping.",
+			"backend": "lasm",
+			"kernel": "kernels/pricing",
+			"law": "discount_within_subtotal"
+		},
+		{
+			"id": "total-adds-up",
+			"statement": "The total is the goods, less the discount, plus shipping.",
+			"backend": "lasm",
+			"kernel": "kernels/pricing",
+			"law": "total_adds_up"
+		}
+	]
+}

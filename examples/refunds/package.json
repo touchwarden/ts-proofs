@@ -1,0 +1,12 @@
+{
+	"name": "refunds-example",
+	"private": true,
+	"type": "module",
+	"dependencies": {
+		"@touchwarden/prove": "workspace:*"
+	},
+	"scripts": {
+		"generate": "prove generate",
+		"demo": "node demo.ts"
+	}
+}

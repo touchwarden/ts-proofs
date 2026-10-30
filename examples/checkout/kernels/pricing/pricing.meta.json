@@ -1,0 +1,22 @@
+{
+	"generator": "@touchwarden/prove",
+	"backend": "lasm",
+	"lean": "4.35.0",
+	"laws": [
+		"discount_within_cap",
+		"discount_within_subtotal",
+		"total_adds_up"
+	],
+	"rule": "pricing.quote",
+	"entry": "Kernel.quote",
+	"proofType": "PricingApproved",
+	"sources": {
+		"Kernel.lean": "9da73aa9b30567fb8b73f2c745420b05efb6b5a29c7a34d2a830ddf9bab6d8d9",
+		"Laws.lean": "3d26ec695dd16387edd5e37a1eaf00bf327e877a538703edd3e7b2cd1ebb6dd0",
+		"Proof.lean": "ab9f698621ced05054d2f83bd552f0e2a4fbe2975c36a0eed44061460580ec3f"
+	},
+	"wasm": {
+		"file": "dist/program.wasm",
+		"sha256": "99c45e2d63592a702c2f208a09403d4afb3bd0cff3594ff39eb6481caa4761b4"
+	}
+}
