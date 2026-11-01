@@ -27,13 +27,13 @@ importers:
 
   examples/checkout:
     dependencies:
-      '@touchwarden/prove':
+      '@touchwarden/ts-proofs':
         specifier: workspace:*
         version: link:../..
 
   examples/refunds:
     dependencies:
-      '@touchwarden/prove':
+      '@touchwarden/ts-proofs':
         specifier: workspace:*
         version: link:../..
 
@@ -95,7 +95,6 @@ packages:
   '@lasm/cli@0.3.5':
     resolution: {integrity: sha512-ceqrE6VHi4TRd0d2uGQQKIRq2wnYEu+bcLMt7i/v99vIq3ELKgNHNMqtuCLhn/WDqeRyODTj76KUicRZFEjk8w==}
     engines: {node: '>=24.0.0'}
-    cpu: [x64, arm64]
     os: [linux, darwin, win32]
     hasBin: true
     bundledDependencies:

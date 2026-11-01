@@ -1,5 +1,5 @@
 {
-	"generator": "@touchwarden/prove",
+	"generator": "@touchwarden/ts-proofs",
 	"rule": "refunds.decide",
 	"entry": "decide",
 	"bend": "2.0.39",

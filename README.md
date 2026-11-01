@@ -1,4 +1,4 @@
-# prove
+# ts-proofs
 
 **Make your TypeScript refuse to act unless a proven rule said yes.**
 
@@ -86,7 +86,7 @@ You need Node 24 or newer. Install Lean with [elan](https://github.com/leanprove
 
 ```sh
 curl -fsSL https://bend-lang.com/install.sh | sh   # only for Bend kernels
-pnpm add -D github:touchwarden/prove
+pnpm add -D github:touchwarden/ts-proofs
 ```
 
 The [refunds example](examples/refunds) has the rule in all three backends, an app that records refunds only with an approval, and the attacks above as tests:

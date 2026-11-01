@@ -1,5 +1,5 @@
 {
-	"generator": "@touchwarden/prove",
+	"generator": "@touchwarden/ts-proofs",
 	"backend": "lean",
 	"lean": "4.35.0",
 	"laws": [

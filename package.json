@@ -1,5 +1,5 @@
 {
-	"name": "@touchwarden/prove",
+	"name": "@touchwarden/ts-proofs",
 	"version": "0.1.0",
 	"private": true,
 	"description": "Prove business rules in Bend or Lean, turn the proven kernel into TypeScript types, and report any code path that acts without the kernel's approval.",

@@ -3,7 +3,7 @@
 	"private": true,
 	"type": "module",
 	"dependencies": {
-		"@touchwarden/prove": "workspace:*"
+		"@touchwarden/ts-proofs": "workspace:*"
 	},
 	"scripts": {
 		"generate": "prove generate",

@@ -1,6 +1,6 @@
 // The refunds example, attacked the ways the README describes: each change
 // below is a PR against a copy of the example, judged by `prove check`.
-// Needs `pnpm build` first (the example imports @touchwarden/prove).
+// Needs `pnpm build` first (the example imports @touchwarden/ts-proofs).
 // Lean proofs need Lean (PROVE_LEAN or lean on PATH); without it, and
 // without Lasm for the example's generated dist/, those tests skip.
 
@@ -82,9 +82,9 @@ before(() => {
 		filter: (source) =>
 			!/(?:^|\/)(?:dist|\.lake|node_modules)(?:\/|$)/.test(source),
 	});
-	// The example imports @touchwarden/prove; point it at this checkout.
+	// The example imports @touchwarden/ts-proofs; point it at this checkout.
 	mkdirSync(path.join(repo, "node_modules/@touchwarden"), { recursive: true });
-	symlinkSync(ROOT, path.join(repo, "node_modules/@touchwarden/prove"));
+	symlinkSync(ROOT, path.join(repo, "node_modules/@touchwarden/ts-proofs"));
 	symlinkSync(
 		path.join(ROOT, "node_modules/@types"),
 		path.join(repo, "node_modules/@types"),
@@ -150,7 +150,7 @@ test("a second decider that would issue approvals is caught", () => {
 	attempt("mint", () =>
 		writeFileSync(
 			path.join(repo, "src/mint.ts"),
-			'import * as tw from "@touchwarden/prove/runtime";\nexport const yes = tw.defineDecider("refunds.decide", (v) => v, () => ({ done: true, value: { amount: 1 } }));\n',
+			'import * as tw from "@touchwarden/ts-proofs/runtime";\nexport const yes = tw.defineDecider("refunds.decide", (v) => v, () => ({ done: true, value: { amount: 1 } }));\n',
 		),
 	);
 	const refund = rule(checkRepo(repo, "main"), "refund-within-captured");

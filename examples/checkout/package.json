@@ -8,6 +8,6 @@
 		"demo": "node demo.ts"
 	},
 	"dependencies": {
-		"@touchwarden/prove": "workspace:*"
+		"@touchwarden/ts-proofs": "workspace:*"
 	}
 }
