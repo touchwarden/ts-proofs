@@ -10,19 +10,60 @@ You write a business rule as a small kernel in [Lean](https://lean-lang.org) or 
 
 Tests show your code works on the inputs you tried. A proof covers every input, but only for the code that was proved. `prove` joins the two: the type checker carries the proof to the line of code that moves the money.
 
+The rule, in Lean:
+
+```lean
+structure Refund where
+  captured : Nat
+  refunded : Nat
+  amount : Nat
+
+structure Approved where
+  amount : Nat
+
+inductive Refusal where
+  | ZeroAmount
+  | OverCaptured
+
+def decide (r : Refund) : Except Refusal Approved :=
+  if r.amount = 0 then .error .ZeroAmount
+  else if r.refunded + r.amount ≤ r.captured then .ok { amount := r.amount }
+  else .error .OverCaptured
+
+-- A law, proved for every input
+def never_exceeds_captured : Prop :=
+  ∀ (r : Refund) (a : Approved), decide r = .ok a → r.refunded + a.amount ≤ r.captured
+```
+
+What `prove generate` gives your TypeScript:
+
 ```ts
-// Generated from the proven kernel. RefundsApproved can only come from refunds.decide.
-import { refunds, type RefundsApproved } from "../kernels/refunds/refunds.gen.ts";
+// Generated from the proven kernel's Lean types.
+import { refunds, type Refund, type RefundsApproved } from "./kernels/refunds/refunds.gen.ts";
 
 export function recordRefund(paymentId: string, approval: RefundsApproved) {
-	const { input, result } = refunds.decide.consume(approval); // spends it, once
+	const { result } = refunds.decide.consume(approval); // spends it, once
 	ledger.insertRefund(paymentId, result.amount);
 }
 
-const decision = await refunds.decide({ captured: 10_000, refunded: 4_000, amount: 6_000 });
-if (decision.ok) recordRefund("pay_1", decision.approval); // compiles
-recordRefund("pay_1", { input, result } as RefundsApproved); // prove gate: "forges a proof"
-ledger.insertRefund("pay_1", 6_000); // prove gate: "called outside recordRefund"
+export async function refund(paymentId: string, request: Refund) {
+	const decision = await refunds.decide(request);
+	if (!decision.ok) {
+		switch (decision.result) {
+			case "ZeroAmount": return "nothing to refund";
+			case "OverCaptured": return "more than was captured";
+			default: { const unhandled: never = decision.result; return unhandled; } // a new refusal in Lean breaks this
+		}
+	}
+	recordRefund(paymentId, decision.approval);
+	return "refunded";
+}
+
+recordRefund("pay_1", { input, result }); // type error: only refunds.decide makes one
+recordRefund("pay_1", pricingApproval); // type error: approved by a different rule
+approval.input.amount = 9_999; // type error: read-only
+recordRefund("pay_1", { input, result } as RefundsApproved); // prove gate: forges a proof
+ledger.insertRefund("pay_1", 6_000); // prove gate: called outside recordRefund
 ```
 
 `prove check` reports by default and never blocks. You choose when it starts blocking.
