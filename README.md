@@ -1,5 +1,13 @@
 # ts-proofs
 
+Note:
+This is very exploratory and WIP. It is mostly vibecoded. The inspiration comes from
+[gdp-ts](https://github.com/rauchg/gdp-ts), the Vercel team's port of Ghosts of Departed Proofs,
+and the rush of new formalization impls such as [Bend](https://bend-lang.com) and
+[Lasm](https://github.com/Millillion/lasm) (Lean to wasm). See what you can take of use from here :)
+
+Take what you like and leave the rest. Say hi: [@GesturingMan](https://x.com/GesturingMan)
+
 **Make your TypeScript refuse to act unless a proven rule said yes.**
 
 You write a business rule as a small kernel in [Lean](https://lean-lang.org) or [Bend](https://bend-lang.com), with laws such as "a refund never takes the total past what was captured", and prove them. `prove` then does three things:
